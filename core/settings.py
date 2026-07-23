@@ -14,6 +14,7 @@ ALLOWED_HOSTS = []
 SHARED_APPS = (
     "django_tenants",
     "tenants",
+    "usuarios",
     "django.contrib.contenttypes",
     "django.contrib.auth",
     "django.contrib.sessions",
@@ -23,6 +24,7 @@ SHARED_APPS = (
 )
 
 TENANT_APPS = (
+    "usuarios",
     "django.contrib.contenttypes",
     "django.contrib.auth",
     "django.contrib.sessions",
@@ -32,6 +34,8 @@ TENANT_APPS = (
 )
 
 INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
+
+AUTH_USER_MODEL = "usuarios.Usuario"
 
 TENANT_MODEL = "tenants.Cuenta"
 TENANT_DOMAIN_MODEL = "tenants.Dominio"
