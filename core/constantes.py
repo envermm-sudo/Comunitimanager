@@ -19,3 +19,18 @@ FORMATOS = (
     ("historia", "Historia"),
     ("texto", "Texto"),
 )
+
+CATEGORIAS_INTENCION = (
+    ("metricas", "Metricas y analisis"),
+    ("interacciones", "Comentarios y mensajes"),
+    ("contenido", "Creacion y publicacion"),
+    ("competencia", "Analisis de competencia"),
+    ("estrategia", "Estrategia y planificacion"),
+    ("cuenta", "Administracion de la cuenta"),
+)
+
+NIVELES_RIESGO = (
+    ("bajo", "Bajo"),
+    ("medio", "Medio"),
+    ("alto", "Alto"),
+)
