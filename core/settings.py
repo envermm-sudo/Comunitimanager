@@ -25,6 +25,9 @@ SHARED_APPS = (
 
 TENANT_APPS = (
     "usuarios",
+    "negocios",
+    "briefing",
+    "estrategia",
     "django.contrib.contenttypes",
     "django.contrib.auth",
     "django.contrib.sessions",
