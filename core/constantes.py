@@ -34,3 +34,8 @@ NIVELES_RIESGO = (
     ("medio", "Medio"),
     ("alto", "Alto"),
 )
+
+ALFABETO_CODIGO = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"
+
+HORAS_VIGENCIA_ACCION = 48
+

@@ -32,6 +32,7 @@ TENANT_APPS = (
     "briefing",
     "estrategia",
     "bitacora",
+    "asistente",
     "django.contrib.contenttypes",
     "django.contrib.auth",
     "django.contrib.sessions",
