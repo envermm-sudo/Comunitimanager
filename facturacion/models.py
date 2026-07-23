@@ -31,6 +31,12 @@ class Plan(models.Model):
     funcionalidades = models.JSONField(
         default=list, blank=True, verbose_name="Funcionalidades incluidas"
     )
+    medios_pago = models.ManyToManyField(
+        "MedioPago",
+        blank=True,
+        related_name="planes",
+        verbose_name="Medios de pago habilitados",
+    )
     orden = models.PositiveSmallIntegerField(
         default=0, verbose_name="Orden de presentacion"
     )
@@ -43,6 +49,12 @@ class Plan(models.Model):
 
     def __str__(self):
         return self.nombre
+
+    def medios_disponibles(self):
+        asignados = self.medios_pago.filter(activo=True)
+        if asignados.exists():
+            return asignados
+        return MedioPago.objects.filter(activo=True)
 
 
 class Suscripcion(models.Model):
@@ -258,3 +270,50 @@ class ConsumoIA(models.Model):
 
     def __str__(self):
         return f"{self.cuenta.nombre_comercial} - {self.periodo}"
+
+
+class MedioPago(models.Model):
+    # IMPORTANTE: En el campo configuracion nunca se deben guardar claves,
+    # tokens ni credenciales. Esos valores viven en el archivo .env.
+    codigo = models.SlugField(max_length=30, unique=True, verbose_name="Codigo")
+    nombre = models.CharField(max_length=60, verbose_name="Nombre")
+    descripcion = models.CharField(
+        max_length=150, blank=True, verbose_name="Descripcion corta"
+    )
+    modo = models.CharField(
+        max_length=20,
+        verbose_name="Modo",
+        choices=[
+            ("qr", "Codigo QR"),
+            ("tarjeta", "Tarjeta"),
+            ("transferencia", "Transferencia bancaria"),
+            ("gratis", "Sin costo"),
+        ],
+    )
+    instrucciones = models.TextField(
+        blank=True, verbose_name="Instrucciones para el cliente"
+    )
+    requiere_comprobante = models.BooleanField(
+        default=False, verbose_name="Requiere comprobante"
+    )
+    requiere_aprobacion_manual = models.BooleanField(
+        default=False, verbose_name="Requiere aprobacion manual"
+    )
+    configuracion = models.JSONField(
+        default=dict,
+        blank=True,
+        verbose_name="Configuracion",
+        help_text="Datos no sensibles. Nunca guardar claves ni tokens aca.",
+    )
+    orden = models.PositiveSmallIntegerField(
+        default=0, verbose_name="Orden de presentacion"
+    )
+    activo = models.BooleanField(default=True, verbose_name="Activo")
+
+    class Meta:
+        verbose_name = "Medio de pago"
+        verbose_name_plural = "Medios de pago"
+        ordering = ("orden", "codigo")
+
+    def __str__(self):
+        return self.nombre

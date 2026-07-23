@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Plan, Suscripcion, Pago, EventoPagoExterno, ConsumoIA
+from .models import Plan, Suscripcion, Pago, EventoPagoExterno, ConsumoIA, MedioPago
 
 
 @admin.register(Plan)
@@ -15,6 +15,7 @@ class PlanAdmin(admin.ModelAdmin):
     )
     list_filter = ("activo",)
     prepopulated_fields = {"codigo": ("nombre",)}
+    filter_horizontal = ("medios_pago",)
 
 
 @admin.register(Suscripcion)
@@ -75,3 +76,12 @@ class ConsumoIAAdmin(admin.ModelAdmin):
     )
     list_filter = ("periodo",)
     readonly_fields = ("actualizado_el",)
+
+
+
+@admin.register(MedioPago)
+class MedioPagoAdmin(admin.ModelAdmin):
+    list_display = ("nombre", "codigo", "modo", "orden", "activo")
+    list_filter = ("activo", "modo")
+    search_fields = ("nombre", "codigo")
+    prepopulated_fields = {"codigo": ("nombre",)}
