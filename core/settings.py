@@ -17,6 +17,7 @@ SHARED_APPS = (
     "tenants",
     "usuarios",
     "capacidades",
+    "facturacion",
     "django.contrib.contenttypes",
     "django.contrib.auth",
     "django.contrib.sessions",
