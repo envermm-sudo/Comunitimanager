@@ -6,6 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+FERNET_KEY = os.getenv("FERNET_KEY")
 
 DEBUG = False
 
@@ -26,6 +27,7 @@ SHARED_APPS = (
 TENANT_APPS = (
     "usuarios",
     "negocios",
+    "redes",
     "briefing",
     "estrategia",
     "django.contrib.contenttypes",
