@@ -114,7 +114,7 @@ def crear_orden_qr(cuenta_id, plan, titulo=None):
                 "vence_en_minutos": MINUTOS_VIGENCIA_QR,
             }
         else:
-            logger.error(f"Mercado Pago rechazo la orden QR. Status: {resp.status_code}, Resspuesta: {resp.text}")
+            logger.error(f"Mercado Pago rechazo la orden QR. Status: {resp.status_code}, Respuesta: {resp.text}")
             return {"ok": False, "error": "Mercado Pago rechazo la orden de cobro"}
     except Exception:
         logger.error("No se pudo conectar con Mercado Pago para crear orden QR", exc_info=True)
@@ -166,4 +166,30 @@ def crear_preferencia_tarjeta(cuenta_id, plan, url_exito, url_fallo, url_pendien
             return {"ok": False, "error": "Mercado Pago rechazo la preferencia de pago"}
     except Exception:
         logger.error("No se pudo conectar con Mercado Pago para crear preferencia de tarjeta", exc_info=True)
+        return {"ok": False, "error": "No se pudo conectar con Mercado Pago"}
+
+
+def obtener_pago(pago_id):
+    try:
+        resp = requests.get(API_BASE + "/v1/payments/" + str(pago_id), headers=_headers(), timeout=20)
+        if resp.status_code == 200:
+            return {"ok": True, "datos": resp.json()}
+        else:
+            logger.error("Codigo de estado %s al consultar pago", resp.status_code)
+            return {"ok": False, "error": "No se pudo consultar el pago"}
+    except Exception:
+        logger.error("No se pudo conectar con Mercado Pago", exc_info=True)
+        return {"ok": False, "error": "No se pudo conectar con Mercado Pago"}
+
+
+def obtener_orden_comercial(orden_id):
+    try:
+        resp = requests.get(API_BASE + "/merchant_orders/" + str(orden_id), headers=_headers(), timeout=20)
+        if resp.status_code == 200:
+            return {"ok": True, "datos": resp.json()}
+        else:
+            logger.error("Codigo de estado %s al consultar orden", resp.status_code)
+            return {"ok": False, "error": "No se pudo consultar la orden"}
+    except Exception:
+        logger.error("No se pudo conectar con Mercado Pago", exc_info=True)
         return {"ok": False, "error": "No se pudo conectar con Mercado Pago"}
